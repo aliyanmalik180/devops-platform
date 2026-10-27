@@ -1,0 +1,5 @@
+[extend]
+useDefault = true
+[allowlist]
+description = "Local-dev placeholder values"
+regexes = ['''change-me-local-only''']

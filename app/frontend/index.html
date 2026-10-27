@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Shortener</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{font-family:system-ui,sans-serif;max-width:560px;margin:4rem auto;padding:0 1rem}
+input{width:70%;padding:.5rem}button{padding:.5rem 1rem}#out{margin-top:1rem;word-break:break-all}</style></head>
+<body><h1>URL Shortener</h1>
+<input id="u" type="url" placeholder="https://example.com/long/path"><button id="b">Shorten</button>
+<p id="out"></p>
+<script>
+document.getElementById('b').onclick = async () => {
+  const out = document.getElementById('out');
+  const r = await fetch('/api/shorten', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({url: document.getElementById('u').value})});
+  if (!r.ok) { out.textContent = 'Error: ' + r.status; return; }
+  const {code} = await r.json();
+  const link = location.origin + '/' + code;
+  out.textContent = '';
+  const a = document.createElement('a'); a.href = link; a.textContent = link;
+  out.appendChild(a);
+};
+</script></body></html>
