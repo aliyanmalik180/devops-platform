@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.12
-FROM python:3.12.8-slim AS builder
+FROM python:3.15.0-slim AS builder
 ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
@@ -7,7 +7,7 @@ WORKDIR /build
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-FROM python:3.12.8-slim AS runtime
+FROM python:3.15.0-slim AS runtime
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PATH="/opt/venv/bin:$PATH"
 # Fixed numeric UID so Kubernetes runAsNonRoot can verify it
 RUN groupadd --system --gid 10001 app \
