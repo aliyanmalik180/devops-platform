@@ -90,7 +90,8 @@ def create_app(store=None, queue=None) -> FastAPI:
         start = time.perf_counter()
         response = await call_next(request)
         route = request.scope.get("route")
-        path = route.path if route else "unmatched"  # template, not raw path: avoids label explosion
+               # use the route template, not the raw path: avoids label explosion
+        path = route.path if route else "unmatched"
         REQS.labels(request.method, path, str(response.status_code)).inc()
         LAT.labels(request.method, path).observe(time.perf_counter() - start)
         return response
