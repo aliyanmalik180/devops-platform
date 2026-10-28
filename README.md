@@ -6,7 +6,7 @@ A deliberately small app (API + worker + frontend + PostgreSQL + Redis) used to 
 |-------|-------|--------|
 | 1 | App, Dockerfiles, docker-compose, CI | Done |
 | 2 | Terraform (VPC, EKS, RDS, GitHub OIDC) | Planned |
-| 3 | Helm + Argo CD GitOps | Planned |
+| 3 | Helm + Argo CD GitOps on kind (free) | Done, see [docs/PHASE3.md](docs/PHASE3.md) |
 | 4 | Observability, Argo Rollouts, alerts, runbooks | Planned |
 | 5 | Security hardening, docs polish | Planned |
 
@@ -28,6 +28,12 @@ make smoke   # create a short link, follow it, read the click count
 make down
 ```
 UI: http://localhost:8080 | API docs: http://localhost:8000/docs
+
+## Kubernetes (kind, free)
+```powershell
+.\scripts\kind-up.ps1 ; .\scripts\deploy-local.ps1 ; .\scripts\smoke.ps1
+```
+Helm chart with probes, resource limits, HPA, PDB, NetworkPolicies and non-root read-only containers. GitOps mode with Argo CD is described in [docs/PHASE3.md](docs/PHASE3.md).
 
 ## Practices demonstrated (Phase 1)
 - Multi-stage Docker builds, non-root numeric UID, pinned base images, HEALTHCHECKs

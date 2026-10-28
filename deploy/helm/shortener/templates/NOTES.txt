@@ -1,0 +1,5 @@
+shortener deployed in namespace {{ .Release.Namespace }}.
+
+Website (kind):  http://localhost:8081
+Check pods:      kubectl get pods -n {{ .Release.Namespace }}
+Smoke test:      .\scripts\smoke.ps1 -BaseUrl http://localhost:8081

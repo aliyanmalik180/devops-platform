@@ -1,0 +1,11 @@
+# Managed by .github/workflows/gitops-bump.yml. Tags are git SHAs, never "latest".
+# "bootstrap" is a placeholder: run the gitops-bump workflow once to set real tags.
+api:
+  image:
+    tag: "bootstrap"
+worker:
+  image:
+    tag: "bootstrap"
+frontend:
+  image:
+    tag: "bootstrap"

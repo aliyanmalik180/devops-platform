@@ -54,6 +54,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_CONFIG: .gitleaks.toml
 
+  helm:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.16.3
+      - name: Lint chart
+        run: helm lint deploy/helm/shortener -f gitops/dev/values.yaml
+      - name: Render chart
+        run: helm template shortener deploy/helm/shortener -f gitops/dev/values.yaml > /dev/null
+
   build-scan:
     runs-on: ubuntu-24.04
     needs: [lint, test]
@@ -81,7 +93,7 @@ jobs:
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    needs: [build-scan, secrets-scan]
+    needs: [build-scan, secrets-scan, helm]
     permissions:
       contents: read
       packages: write

@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: shortener-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aliyanmalik180/devops-platform.git
+    targetRevision: main
+    path: deploy/helm/shortener
+    helm:
+      valueFiles:
+        - values.yaml
+        - ../../../gitops/dev/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: shortener
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
